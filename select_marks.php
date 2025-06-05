@@ -66,7 +66,9 @@ if (!isset($_SESSION['username'])) {
               <tr>
                 <th>Mark ID</th>
                 <th>Trainee ID</th>
+                <th>Trainee Name</th>
                 <th>Module ID</th>
+                <th>Module Name</th>
                 <th>Formative</th>
                 <th>Summative</th>
                 <th>Total</th>
@@ -76,8 +78,21 @@ if (!isset($_SESSION['username'])) {
             </thead>
             <tbody class="text-dark">
               <?php
-              $slct = "SELECT * FROM marks";
-              $query = mysqli_query($conn, $slct);
+              $sql = "SELECT 
+         m.Mark_Id, 
+         m.Trainee_id, 
+         m.Module_id, 
+         m.summative_assessment,
+         m.Formative_assessment, 
+         m.Total_mark, 
+         m.Result, 
+         CONCAT(t.FirstNames, ' ', t.LastName) AS Trainee_name,
+         md.Module_Name 
+     FROM marks m 
+     JOIN trainees t ON t.Trainee_Id = m.Trainee_id
+     JOIN modules md ON m.Module_id = md.Module_Id";
+
+              $query = mysqli_query($conn, $sql);
 
               if (mysqli_num_rows($query) > 0) {
                 while ($row = mysqli_fetch_assoc($query)) {
@@ -85,7 +100,9 @@ if (!isset($_SESSION['username'])) {
                     <tr>
                       <td>{$row['Mark_Id']}</td>
                       <td>{$row['Trainee_id']}</td>
+                      <td>{$row['Trainee_name']}</td>
                       <td>{$row['Module_id']}</td>
+                      <td>{$row['Module_Name']}</td>
                       <td>{$row['Formative_assessment']}</td>
                       <td>{$row['summative_assessment']}</td>
                       <td>{$row['Total_mark']}</td>
