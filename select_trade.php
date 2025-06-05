@@ -12,7 +12,13 @@ session_start();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     body {
-      padding-top: 70px; /* space for fixed navbar */
+      padding-top: 70px;
+    }
+    table {
+      background-color: #fff;
+    }
+    .table th, .table td {
+      vertical-align: middle;
     }
     a {
       text-decoration: none;
@@ -21,7 +27,7 @@ session_start();
 </head>
 <body class="bg-secondary text-white">
 
-  <!-- Navigation Bar -->
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">GIKONKO TSS</a>
@@ -43,41 +49,52 @@ session_start();
 
   <!-- Content -->
   <div class="container mt-4">
-    <h2 class="text-center mb-4">Trade List</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped text-center">
-        <thead class="table-dark">
-          <tr>
-            <th>Trade ID</th>
-            <th>Trade Name</th>
-            <th colspan="2">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="text-dark bg-light">
-          <?php
-            $slct = "SELECT * FROM trades";
-            $query = mysqli_query($conn, $slct);
+    <div class="card shadow">
+      <div class="card-body bg-white rounded">
+        <h2 class="text-center mb-4 text-dark">🛠️ Trade List</h2>
 
-            if (mysqli_num_rows($query) > 0) {
-              while ($row = mysqli_fetch_assoc($query)) {
-                echo "
-                  <tr>
-                    <td>{$row['trade_Id']}</td>
-                    <td>{$row['Trade_name']}</td>
-                    <td><a class='btn btn-sm btn-warning' href='update_trade.php?trade_Id={$row['trade_Id']}'>Update</a></td>
-                    <td><a class='btn btn-sm btn-danger' href='delete_trade.php?trade_Id={$row['trade_Id']}'>Delete</a></td>
-                  </tr>
-                ";
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+              <tr>
+                <th>Trade ID</th>
+                <th>Trade Name</th>
+                <th colspan="2">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="text-dark bg-light">
+              <?php
+              $slct = "SELECT * FROM trades";
+              $query = mysqli_query($conn, $slct);
+
+              if (mysqli_num_rows($query) > 0) {
+                while ($row = mysqli_fetch_assoc($query)) {
+                  echo "
+                    <tr>
+                      <td>{$row['trade_Id']}</td>
+                      <td>{$row['Trade_name']}</td>
+                      <td><a class='btn btn-sm btn-warning fw-semibold' href='update_trade.php?trade_Id={$row['trade_Id']}'>Update</a></td>
+                      <td><a class='btn btn-sm btn-danger fw-semibold' href='delete_trade.php?trade_Id={$row['trade_Id']}'>Delete</a></td>
+                    </tr>
+                  ";
+                }
+              } else {
+                echo "<tr><td colspan='4' class='text-danger fw-bold'>No trades found.</td></tr>";
               }
-            } else {
-              echo "<tr><td colspan='4' class='text-danger'>No trades found.</td></tr>";
-            }
-          ?>
-        </tbody>
-      </table>
-    </div>
-    <div class="text-end mt-3">
-      <a href="insert_trade.php" class="btn btn-success">Add New Trade</a>
+              ?>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-6 col-lg-4 text-center">
+            <a href="insert_trade.php" class="btn btn-success w-100 mb-3 fw-bold">+ Add New Trade</a>
+            <a href="home.php" class="btn btn-outline-dark bg-light text-dark w-100 fw-semibold">⬅ Back to Home</a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
