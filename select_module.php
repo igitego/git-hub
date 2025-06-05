@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("location:login.php");
     exit();
-  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +46,7 @@ if (!isset($_SESSION['username'])) {
           <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
           <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
           <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
-                     <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -64,13 +64,17 @@ if (!isset($_SESSION['username'])) {
               <tr>
                 <th>Module ID</th>
                 <th>Module Name</th>
-                <th>Trade ID</th>
+                <th>Trade Name</th>
                 <th colspan="2">Actions</th>
               </tr>
             </thead>
             <tbody class="text-dark bg-light">
               <?php
-              $slct = "SELECT * FROM modules";
+              $slct = "
+                SELECT modules.Module_Id, modules.Module_Name, trades.Trade_name 
+                FROM modules 
+                JOIN trades ON modules.Trade_Id = trades.Trade_Id
+              ";
               $query = mysqli_query($conn, $slct);
 
               if (mysqli_num_rows($query) > 0) {
@@ -79,7 +83,7 @@ if (!isset($_SESSION['username'])) {
                     <tr>
                       <td>{$row['Module_Id']}</td>
                       <td>{$row['Module_Name']}</td>
-                      <td>{$row['Trade_Id']}</td>
+                      <td>{$row['Trade_name']}</td>
                       <td><a class='btn btn-sm btn-warning fw-semibold' href='update_module.php?Module_Id={$row['Module_Id']}'>Update</a></td>
                       <td><a class='btn btn-sm btn-danger fw-semibold' href='delete_module.php?Module_Id={$row['Module_Id']}'>Delete</a></td>
                     </tr>

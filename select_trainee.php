@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("location:login.php");
     exit();
-  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,6 @@ if (!isset($_SESSION['username'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trainee List</title>
-  <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     body {
@@ -31,7 +30,6 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body class="bg-secondary text-white">
 
-  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">GIKONKO TSS</a>
@@ -46,13 +44,12 @@ if (!isset($_SESSION['username'])) {
           <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
           <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
           <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
-                     <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Content -->
   <div class="container mt-4">
     <div class="card shadow">
       <div class="card-body bg-white rounded">
@@ -66,13 +63,15 @@ if (!isset($_SESSION['username'])) {
                 <th>First Names</th>
                 <th>Last Name</th>
                 <th>Gender</th>
-                <th>Trade ID</th>
+                <th>Trade (ID - Name)</th>
                 <th colspan="2">Actions</th>
               </tr>
             </thead>
             <tbody class="text-dark bg-light">
               <?php
-              $slct = "SELECT * FROM trainees";
+              $slct = "SELECT t.Trainee_Id, t.FirstNames, t.LastName, t.Gender, t.Trade_Id, tr.Trade_Name 
+                       FROM trainees t
+                       JOIN trades tr ON t.Trade_Id = tr.Trade_Id";
               $query = mysqli_query($conn, $slct);
 
               if (mysqli_num_rows($query) > 0) {
@@ -83,7 +82,7 @@ if (!isset($_SESSION['username'])) {
                       <td>{$row['FirstNames']}</td>
                       <td>{$row['LastName']}</td>
                       <td>{$row['Gender']}</td>
-                      <td>{$row['Trade_Id']}</td>
+                      <td>{$row['Trade_Id']} - {$row['Trade_Name']}</td>
                       <td><a class='btn btn-sm btn-warning fw-semibold' href='update_trainee.php?Trainee_Id={$row['Trainee_Id']}'>Update</a></td>
                       <td><a class='btn btn-sm btn-danger fw-semibold' href='delete_trainee.php?Trainee_Id={$row['Trainee_Id']}'>Delete</a></td>
                     </tr>
@@ -97,7 +96,6 @@ if (!isset($_SESSION['username'])) {
           </table>
         </div>
 
-        <!-- Buttons -->
         <div class="row justify-content-center mt-4">
           <div class="col-md-6 col-lg-4 text-center">
             <a href="insert_trainee.php" class="btn btn-success w-100 mb-3 fw-bold">+ Add New Trainee</a>
