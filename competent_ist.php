@@ -1,10 +1,11 @@
 <?php
 include("conn.php");
 session_start();
-  if (!isset($_SESSION['username'])) {
-    header("location:login.php");
-    exit();
-  }
+
+if (!isset($_SESSION['username'])) {
+  header("location:login.php");
+  exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,7 @@ session_start();
           <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
           <li class="nav-item"><a class="nav-link active" href="competent_ist.php">C</a></li>
           <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -80,17 +82,15 @@ session_start();
                              m.Total_mark,
                              m.Result
                       FROM marks m 
-                      JOIN modules md ON m.Module_id = md.Module_Id
-                      JOIN trainees t ON m.Trainee_id = t.Trainee_Id
+                      LEFT JOIN modules md ON m.Module_id = md.Module_Id
+                      LEFT JOIN trainees t ON m.Trainee_id = t.Trainee_Id
                       WHERE m.Total_mark >= 70";
 
               $result = mysqli_query($conn, $sql);
 
               if (!$result) {
-                die(mysqli_error($conn));
-              }
-
-              if (mysqli_num_rows($result) > 0) {
+                echo "<tr><td colspan='5' class='text-danger'>Query error: " . mysqli_error($conn) . "</td></tr>";
+              } elseif (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                   echo "
                     <tr>
