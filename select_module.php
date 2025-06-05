@@ -64,6 +64,7 @@ if (!isset($_SESSION['username'])) {
               <tr>
                 <th>Module ID</th>
                 <th>Module Name</th>
+                <th>Trade ID</th>
                 <th>Trade Name</th>
                 <th colspan="2">Actions</th>
               </tr>
@@ -71,7 +72,7 @@ if (!isset($_SESSION['username'])) {
             <tbody class="text-dark bg-light">
               <?php
               $slct = "
-                SELECT modules.Module_Id, modules.Module_Name, trades.Trade_name 
+                SELECT modules.Module_Id, modules.Module_Name, trades.Trade_Id, trades.Trade_name 
                 FROM modules 
                 JOIN trades ON modules.Trade_Id = trades.Trade_Id
               ";
@@ -83,6 +84,7 @@ if (!isset($_SESSION['username'])) {
                     <tr>
                       <td>{$row['Module_Id']}</td>
                       <td>{$row['Module_Name']}</td>
+                      <td>{$row['Trade_Id']}</td>
                       <td>{$row['Trade_name']}</td>
                       <td><a class='btn btn-sm btn-warning fw-semibold' href='update_module.php?Module_Id={$row['Module_Id']}'>Update</a></td>
                       <td><a class='btn btn-sm btn-danger fw-semibold' href='delete_module.php?Module_Id={$row['Module_Id']}'>Delete</a></td>
@@ -90,7 +92,7 @@ if (!isset($_SESSION['username'])) {
                   ";
                 }
               } else {
-                echo "<tr><td colspan='5' class='text-danger fw-bold'>No modules found.</td></tr>";
+                echo "<tr><td colspan='6' class='text-danger fw-bold'>No modules found.</td></tr>";
               }
               ?>
             </tbody>

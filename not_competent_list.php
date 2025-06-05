@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("location:login.php");
     exit();
-  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,7 @@ if (!isset($_SESSION['username'])) {
           <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
           <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
           <li class="nav-item"><a class="nav-link active" href="not_competent_list.php">NYC</a></li>
-                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -69,20 +69,24 @@ if (!isset($_SESSION['username'])) {
                 <th>Trainee Name</th>
                 <th>Module ID</th>
                 <th>Module Name</th>
+                <th>Trade Name</th>
                 <th>Result</th>
               </tr>
             </thead>
             <tbody class="text-dark">
               <?php
-              $sql = "SELECT m.Trainee_id, 
-                             CONCAT(t.FirstNames, ' ', t.LastName) AS Trainee_name,
-                             m.Module_id,
-                             md.Module_Name,
-                             m.Total_mark,
-                             m.Result
+              $sql = "SELECT 
+                        m.Trainee_id, 
+                        CONCAT(t.FirstNames, ' ', t.LastName) AS Trainee_name,
+                        m.Module_id,
+                        md.Module_Name,
+                        tr.Trade_name,
+                        m.Total_mark,
+                        m.Result
                       FROM marks m 
-                      JOIN modules md ON m.Module_id = md.Module_Id
-                      JOIN trainees t ON m.Trainee_id = t.Trainee_Id
+                      LEFT JOIN trainees t ON m.Trainee_id = t.Trainee_Id
+                      LEFT JOIN modules md ON m.Module_id = md.Module_Id
+                      LEFT JOIN trades tr ON md.Trade_Id = tr.Trade_Id
                       WHERE m.Total_mark < 70";
 
               $result = mysqli_query($conn, $sql);
@@ -99,12 +103,13 @@ if (!isset($_SESSION['username'])) {
                       <td>{$row['Trainee_name']}</td>
                       <td>{$row['Module_id']}</td>
                       <td>{$row['Module_Name']}</td>
+                      <td>{$row['Trade_name']}</td>
                       <td><span class='badge bg-danger'>{$row['Result']}</span></td>
                     </tr>
                   ";
                 }
               } else {
-                echo "<tr><td colspan='5' class='text-danger fw-bold'>No trainees found below 70%.</td></tr>";
+                echo "<tr><td colspan='6' class='text-danger fw-bold'>No trainees found below 70%.</td></tr>";
               }
               ?>
             </tbody>
