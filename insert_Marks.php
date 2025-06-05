@@ -84,7 +84,8 @@ if (isset($_POST['insert'])) {
             <input type="number" name="Formative_assessment" class="form-control" required>
           </div>
           <div class="d-grid">
-            <button name="insert" class="btn btn-dark">Add</button>
+            <button name="insert" class="btn btn-dark mb-2">Add</button>
+            <a href="select_marks.php" class="btn btn-danger mt-3">Back</a>
           </div>
         </form>
       </div>
