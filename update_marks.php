@@ -74,7 +74,10 @@
       <input type="number" name="Formative_assessment" value="<?php echo $row['Formative_assessment']; ?>" class="form-control" required>
     </div>
 
+                <div class="d-grid">
     <button name="update" class="btn btn-dark w-100">Update</button>
+     <a href="select_module.php" class="btn btn-danger mt-3">Back</a>
+     </div>
   </form>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

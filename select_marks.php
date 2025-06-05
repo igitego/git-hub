@@ -87,12 +87,12 @@ session_start();
       </table>
     </div>
 
-    <div class="text-center mt-3">
+    <div class="text-center mt-3 d-grid">
       <a href="insert_marks.php" class="btn btn-success">+ Add New Marks</a>
+     <a href="select_module.php" class="btn btn-danger mt-3">Back</a>
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

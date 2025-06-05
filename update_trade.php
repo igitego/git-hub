@@ -44,7 +44,10 @@ if (isset($_POST['update'])) {
             <label class="form-label text-dark">Trade Name</label>
             <input type="text" name="Trade_name" value="<?php echo $result['Trade_name'] ?>" class="form-control">
           </div>
-          <button name="update" class="btn btn-secondary w-100">Update</button>
+                      <div class="d-grid">
+    <button name="update" class="btn btn-dark w-100">Update</button>
+     <a href="select_trade.php" class="btn btn-danger mt-3">Back</a>
+     </div>
         </form>
       </div>
     </div>
