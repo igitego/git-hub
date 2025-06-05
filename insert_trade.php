@@ -6,12 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+    <br><br><br>
+    <center>
     <form action=""method="POST">
 
 <label for="">trade_name</label>
 <input type="text"name="Trade_name"><br><br>
 <button name="insert">Add</button>
 </form>
+</center>
 </body>
 </html>
 <?php

@@ -6,6 +6,8 @@
     <title>Insert Module</title>
 </head>
 <body>
+    <br><br><br><br>
+    <center>
     <form action="" method="post">
         <label for="">Module_Name</label>
         <input type="text" name="Module_Name"><br><br>
@@ -15,6 +17,7 @@
         
         <button name="insert">Add</button>
     </form>
+    </center>
 </body>
 </html>
 

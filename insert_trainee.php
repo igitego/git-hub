@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
+    <br><br><br><br>
+    <center>
     <form action=""method="POST">
 <label for=""> FirstNames</label>
 <input type="text"name="FirstNames"><br><br>
@@ -18,6 +20,7 @@
 <input type="text"name="Trade_Id"><br><br>
 <button name="insert">Add</button>
     </form>
+    </center>
 </body>
 </html>
 <?php
