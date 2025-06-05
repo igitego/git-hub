@@ -1,5 +1,10 @@
 <?php
     include('conn.php');
+    session_start();
+    if (!isset($_SESSION['username'])) {
+    header("location:login.php");
+    exit();
+  }
     if (isset($_GET['Module_Id'])) {
         $Module_Id = $_GET['Module_Id'];
         $sql = "SELECT * FROM modules WHERE Module_Id = '$Module_Id'";
