@@ -1,6 +1,10 @@
 <?php
 include("conn.php");
 session_start(); 
+if (!isset($_SESSION['username'])) {
+    header("location:login.php");
+    exit();
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +37,7 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
                     <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
                     <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>

@@ -1,6 +1,11 @@
 <?php
 include("conn.php");
 
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("location:login.php");
+    exit();
+  }
 if (isset($_POST['insert'])) {
 
     $TraineeID = $_POST['Trainee_id'];
@@ -54,6 +59,7 @@ if (isset($_POST['insert'])) {
           <li class="nav-item"><a class="nav-link active" href="select_marks.php">Marks</a></li>
           <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
           <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
+                     <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>

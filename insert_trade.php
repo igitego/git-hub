@@ -1,6 +1,11 @@
 <?php
 include("conn.php");
 
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("location:login.php");
+    exit();
+  }
 if (isset($_POST['insert'])) {
     $trade_name = $_POST['Trade_name'];
     $sql = "INSERT INTO trades (Trade_name) VALUES('$trade_name')";

@@ -1,6 +1,11 @@
 <?php
 include("conn.php");
 
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("location:login.php");
+    exit();
+  }
 if (isset($_POST['insert'])) {
     $Modulename = $_POST['Module_Name'];
     $Trade_id = $_POST['Trade_Id'];
