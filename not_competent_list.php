@@ -12,9 +12,7 @@ if (!isset($_SESSION['username'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Not Yet Competent Trainees</title>
-  <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
   <style>
     body {
@@ -84,26 +82,25 @@ if (!isset($_SESSION['username'])) {
                         m.Total_mark,
                         m.Result
                       FROM marks m 
-                      LEFT JOIN trainees t ON m.Trainee_id = t.Trainee_Id
                       LEFT JOIN modules md ON m.Module_id = md.Module_Id
                       LEFT JOIN trades tr ON md.Trade_Id = tr.Trade_Id
+                      LEFT JOIN trainees t ON m.Trainee_id = t.Trainee_Id
                       WHERE m.Total_mark < 70";
 
               $result = mysqli_query($conn, $sql);
 
               if (!$result) {
-                die(mysqli_error($conn));
-              }
-
-              if (mysqli_num_rows($result) > 0) {
+                echo "<tr><td colspan='6' class='text-danger'>Query Error: " . mysqli_error($conn) . "</td></tr>";
+              } elseif (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
+                  $tradeName = !empty($row['Trade_name']) ? $row['Trade_name'] : "<span class='text-muted'>N/A</span>";
                   echo "
                     <tr>
                       <td>{$row['Trainee_id']}</td>
                       <td>{$row['Trainee_name']}</td>
                       <td>{$row['Module_id']}</td>
                       <td>{$row['Module_Name']}</td>
-                      <td>{$row['Trade_name']}</td>
+                      <td>{$tradeName}</td>
                       <td><span class='badge bg-danger'>{$row['Result']}</span></td>
                     </tr>
                   ";
@@ -122,7 +119,6 @@ if (!isset($_SESSION['username'])) {
             <i class="bi bi-arrow-left-circle"></i> Back to Marks
           </a>
         </div>
-
       </div>
     </div>
   </div>
