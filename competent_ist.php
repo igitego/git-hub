@@ -1,10 +1,9 @@
 <?php
 include("conn.php");
 session_start();
-
 if (!isset($_SESSION['username'])) {
-  header("location:login.php");
-  exit();
+    header("location:login.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -12,17 +11,15 @@ if (!isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Competent Trainees</title>
-  <!-- Bootstrap 5 -->
+  <title>Not Yet Competent Trainees</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
   <style>
     body {
       padding-top: 70px;
     }
     table {
-      background-color: white;
+      background-color: #fff;
     }
     .table th, .table td {
       vertical-align: middle;
@@ -47,20 +44,20 @@ if (!isset($_SESSION['username'])) {
           <li class="nav-item"><a class="nav-link" href="select_module.php">Module</a></li>
           <li class="nav-item"><a class="nav-link" href="select_trade.php">Trade</a></li>
           <li class="nav-item"><a class="nav-link" href="select_marks.php">Marks</a></li>
-          <li class="nav-item"><a class="nav-link active" href="competent_ist.php">C</a></li>
-          <li class="nav-item"><a class="nav-link" href="not_competent_list.php">NYC</a></li>
-                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="competent_ist.php">C</a></li>
+          <li class="nav-item"><a class="nav-link active" href="not_competent_list.php">NYC</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Content -->
+  <!-- Content -->
   <div class="container mt-4">
     <div class="card shadow">
       <div class="card-body bg-white rounded">
         <h2 class="text-center text-dark mb-4">
-          <i class="bi bi-check-circle-fill text-success"></i> Competent Trainees
+             <i class="bi bi-check-circle-fill text-success"></i> Competent Trainees
         </h2>
         <div class="table-responsive">
           <table class="table table-bordered table-striped text-center">
@@ -70,40 +67,46 @@ if (!isset($_SESSION['username'])) {
                 <th>Trainee Name</th>
                 <th>Module ID</th>
                 <th>Module Name</th>
+                <th>Trade Name</th>
                 <th>Result</th>
               </tr>
             </thead>
             <tbody class="text-dark">
               <?php
-              $sql = "SELECT m.Trainee_id, 
-                             CONCAT(t.FirstNames, ' ', t.LastName) AS Trainee_name,
-                             m.Module_id,
-                             md.Module_Name,
-                             m.Total_mark,
-                             m.Result
+              $sql = "SELECT 
+                        m.Trainee_id, 
+                        CONCAT(t.FirstNames, ' ', t.LastName) AS Trainee_name,
+                        m.Module_id,
+                        md.Module_Name,
+                        tr.Trade_name,
+                        m.Total_mark,
+                        m.Result
                       FROM marks m 
                       LEFT JOIN modules md ON m.Module_id = md.Module_Id
+                      LEFT JOIN trades tr ON md.Trade_Id = tr.Trade_Id
                       LEFT JOIN trainees t ON m.Trainee_id = t.Trainee_Id
                       WHERE m.Total_mark >= 70";
 
               $result = mysqli_query($conn, $sql);
 
               if (!$result) {
-                echo "<tr><td colspan='5' class='text-danger'>Query error: " . mysqli_error($conn) . "</td></tr>";
+                echo "<tr><td colspan='6' class='text-danger'>Query Error: " . mysqli_error($conn) . "</td></tr>";
               } elseif (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
+                  $tradeName = !empty($row['Trade_name']) ? $row['Trade_name'] : "<span class='text-muted'>N/A</span>";
                   echo "
                     <tr>
                       <td>{$row['Trainee_id']}</td>
                       <td>{$row['Trainee_name']}</td>
                       <td>{$row['Module_id']}</td>
                       <td>{$row['Module_Name']}</td>
-                      <td><span class='badge bg-success'>{$row['Result']}</span></td>
+                      <td>{$tradeName}</td>
+                      <td><span class='badge bg-danger'>{$row['Result']}</span></td>
                     </tr>
                   ";
                 }
               } else {
-                echo "<tr><td colspan='5' class='text-danger fw-bold'>No competent trainees found in the table.</td></tr>";
+                echo "<tr><td colspan='6' class='text-danger fw-bold'>No trainees found below 70%.</td></tr>";
               }
               ?>
             </tbody>
